@@ -44,6 +44,9 @@ jobs:
           tags: |
             type=semver,pattern=v{{version}}
             type=semver,pattern=v{{major}}.{{minor}}
+            type=ref,event=branch
+            type=sha,format=short
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -58,7 +61,8 @@ jobs:
         id: push
         uses: docker/build-push-action@v6
         with:
-          push: ${{ steps.docker-metadata.outputs.tags != '' }}
+          platforms: linux/amd64,linux/arm64
+          push: true
           tags: ${{ steps.docker-metadata.outputs.tags }}
           labels: ${{ steps.docker-metadata.outputs.labels }}
           cache-from: type=registry,ref=amitie10g/webmin-bind:latest-buildcache
