@@ -39,8 +39,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            rickyelopez/webmin-bind
-            ghcr.io/rickyelopez/webmin-bind
+            amitie10g/webmin-bind
+            ghcr.io/amitie10g/webmin-bind
           tags: |
             type=semver,pattern=v{{version}}
             type=semver,pattern=v{{major}}.{{minor}}
@@ -61,12 +61,12 @@ jobs:
           push: ${{ steps.docker-metadata.outputs.tags != '' }}
           tags: ${{ steps.docker-metadata.outputs.tags }}
           labels: ${{ steps.docker-metadata.outputs.labels }}
-          cache-from: type=registry,ref=rickyelopez/webmin-bind:latest-buildcache
-          cache-to: type=registry,ref=rickyelopez/webmin-bind:latest-buildcache,mode=max
+          cache-from: type=registry,ref=amitie10g/webmin-bind:latest-buildcache
+          cache-to: type=registry,ref=amitie10g/webmin-bind:latest-buildcache,mode=max
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2
         with:
-          subject-name: ghcr.io/rickyelopez/webmin-bind
+          subject-name: ghcr.io/amitie10g/webmin-bind
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
