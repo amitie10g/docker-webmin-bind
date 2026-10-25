@@ -1,4 +1,4 @@
-ARG UBUNTU_TAG=noble-20250404
+ARG UBUNTU_TAG=latest
 FROM ubuntu:${UBUNTU_TAG} AS add-apt-repositories
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -20,9 +20,6 @@ COPY --from=add-apt-repositories /etc/apt/trusted.gpg.d /etc/apt/trusted.gpg.d
 COPY --from=add-apt-repositories /etc/apt/sources.list /etc/apt/sources.list
 COPY --from=add-apt-repositories /etc/apt/sources.list.d /etc/apt/sources.list.d
 
-ARG BIND_VERSION=1:9.18.30-0ubuntu0.24.04.2
-ARG WEBMIN_VERSION=2.400
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
@@ -43,9 +40,9 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
     && apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y \
-    bind9-host=${BIND_VERSION} \
-    bind9=${BIND_VERSION} \
-    webmin=${WEBMIN_VERSION} \
+    bind9-host \
+    bind9 \
+    webmin \
     && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /sbin/entrypoint.sh
